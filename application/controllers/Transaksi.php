@@ -130,24 +130,46 @@ class Transaksi extends MY_Controller {
                         echo "<tbody><tr id='dataku$d->id'>
                                 <td>$no</td>
                                 <td>$d->kode_barang</td>
-                                <td>$nama->nama_barang</td> <td>";
-                                echo number_format($d->harga_jual,0,',','.');
+                                <td>$nama->nama_barang</td> <td>
+                                <input type='text' class='form-control' name='harga".$d->id."' value='".$d->harga_jual."' id='harga".$d->id."'>
+                                ";
+                             
                                echo "</td>
-                                <td>$d->qty</td> <td>";
-                                echo number_format($d->total,0,',','.');
+                                <td> <input type='text' class='form-control' name='qty".$d->id."' value='".$d->qty."' id='qty".$d->id."'></td> <td>
+                                <input type='text' class='form-control' name='total".$d->id."' value='".$d->total."' id='total".$d->id."'>
+                                ";
+                            
                                 echo "<td>
                                 <button type ='button' class='btn btn-icon btn-sm btn-danger' onClick='hapus($d->id)'><i class='fa fa-close'></i> Batal
-                                <button type ='button' class='btn btn-icon btn-sm btn-warning' onClick='edit()'><i class='fa fa-close'></i> Batal
+                                <button type ='button' class='btn btn-icon btn-sm btn-warning' onClick='edit()'><i class='fa fa-close'></i> Edit
                                 </td>
                              </tr>
                            </tbody>  ";
                         $no++;
+
+                        echo "
+                        <script>
+                            function edit(){
+                                var id     = $('#id".$d->id."').val();
+                                var qty     = $('#qty".$d->id."').val();
+                                var harga     = $('#harga".$d->id."').val();
+                                var total     = $('#total".$d->id."').val();
+                            
+                            }
+                
+                        </script>";
+                        
                         
                     }
                     echo "</table>";  
                    
     }
 
+
+    function edit(){
+       
+
+    }
 
     function input_ajax()
     {
