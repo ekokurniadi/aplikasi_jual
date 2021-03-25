@@ -137,6 +137,8 @@ class Transaksi extends MY_Controller {
                                echo "</td>
                                 <td> <input type='text' class='form-control' name='qty".$d->id."' value='".$d->qty."' id='qty".$d->id."'></td> <td>
                                 <input type='text' class='form-control' name='total".$d->id."' value='".$d->total."' id='total".$d->id."'>
+                                <input type='hidden' class='form-control' name='id".$d->id."' value='".$d->id."' id='id".$d->id."'>
+                                <input type='hidden' class='form-control' name='modal".$d->id."' value='".$d->harga_modal."' id='modal".$d->id."'>
                                 ";
                             
                                 echo "<td>
@@ -150,10 +152,30 @@ class Transaksi extends MY_Controller {
                         echo "
                         <script>
                             function edit(){
-                                var id     = $('#id".$d->id."').val();
-                                var qty     = $('#qty".$d->id."').val();
-                                var harga     = $('#harga".$d->id."').val();
-                                var total     = $('#total".$d->id."').val();
+                                var id".$d->id."     = $('#id".$d->id."').val();
+                                var qty".$d->id."     = $('#qty".$d->id."').val();
+                                var harga".$d->id."     = $('#harga".$d->id."').val();
+                                var total".$d->id."     = $('#total".$d->id."').val();
+                                var modal".$d->id."     = $('#modal".$d->id."').val();
+
+                                $.ajax({
+                                    type:'GET',
+                                    url:'".base_url('transaksi/input_ajax')."',
+                                    data:'id='+id".$d->id."+'&qty='+qty".$d->id."+'&harga='+harga".$d->id."+'&total='+total".$d->id."+"&qty_jual="+qty_jual+"&total="+total+"&harga_modal="+harga_modal+"&laba="+laba,
+                                    success:function(html){
+                                       load_data_temp();
+                                       $('select[name="kode_barang"]').val('');
+                                        $("#harga_jual").val('0');
+                                        $("#qty_jual").val('');
+                                        $("#total").val('0');
+                                        $("#harga_modal").val('0');
+                                        $("#laba").val('0');
+                                        $("#modal_laba").val('0');
+                                      
+                                        document.getElementById("kode_barang").focus();
+                                       
+                                    }
+                                 });
                             
                             }
                 
