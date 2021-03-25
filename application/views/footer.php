@@ -202,5 +202,26 @@ var myChart2 = new Chart(ctx2, {
 
 });
 </script> 
+<script type="text/javascript">
+    $(document).ready( function () {
+        $('#example1').DataTable({
+        // "paging":true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth":false,
+        "scrollX":true,
+        "scrollY":true,
+        "responsive":true,
+        "lengthMenu": [[10, 25, 50,75,100, -1], [10, 25, 50,75,100, "All"]],
+        "order": []
+        });
+        
+      $('#example1').on( 'keyup', function () {
+      table.search(this.value).draw();
+    });
+  });
+</script>
 </body>
 </html>

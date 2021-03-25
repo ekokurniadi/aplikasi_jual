@@ -35,12 +35,14 @@ class Transaksi extends MY_Controller {
 
     public function index()
     {
-        $q = urldecode($this->input->get('q', TRUE));
+       
+        $t1 = $this->input->get('tanggal_awal', TRUE);
+        $t2 = $this->input->get('tanggal_akhir', TRUE);
         $start = intval($this->input->get('start'));
         
-        if ($q <> '') {
-            $config['base_url'] = base_url() . 'transaksi/index.dart?q=' . urlencode($q);
-            $config['first_url'] = base_url() . 'transaksi/index.dart?q=' . urlencode($q);
+        if ($t1 <> '' or $t2 <> '') {
+            $config['base_url'] = base_url() . 'transaksi/index.dart?t1=' . $t1.'&t2='.$t2;
+            $config['first_url'] = base_url() . 'transaksi/index.dart?t1=' . $t1.'&t2='.$t2;
         } else {
             $config['base_url'] = base_url() . 'transaksi/index.dart';
             $config['first_url'] = base_url() . 'transaksi/index.dart';
@@ -48,15 +50,16 @@ class Transaksi extends MY_Controller {
 
         $config['per_page'] = 10;
         $config['page_query_string'] = TRUE;
-        $config['total_rows'] = $this->Transaksi_model->total_rows($q);
-        $transaksi = $this->Transaksi_model->get_limit_data($config['per_page'], $start, $q);
+        $config['total_rows'] = $this->Transaksi_model->total_rows($t1,$t2);
+        $transaksi = $this->Transaksi_model->get_limit_data($config['per_page'], $start, $t1,$t2);
 
         $this->load->library('pagination');
         $this->pagination->initialize($config);
 
         $data = array(
             'transaksi_data' => $transaksi,
-            'q' => $q,
+            'tanggal1' => $t1,
+            'tanggal2' => $t2,
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
@@ -149,7 +152,7 @@ class Transaksi extends MY_Controller {
                            </tbody>  ";
                         $no++;
 
-                        echo "
+                        echo"
                         <script>
                             function edit(){
                                 var id".$d->id."     = $('#id".$d->id."').val();
@@ -181,15 +184,14 @@ class Transaksi extends MY_Controller {
 
 
     function edit(){
+
         $id       = $_GET['id'];
         $qty      = $_GET['qty'];
         $modal    = $_GET['modal'];
         $harga_jual = $_GET['harga'];
         $total      = $_GET['total'];
         $laba      = (($harga_jual - $harga_modal) * $qty);
-
-        $update = $this->db->query("update detail_transaksi set harga_jual ='$harga_jual', total='$total'")
-    
+        $update = $this->db->query("update detail_transaksi set harga_jual ='$harga_jual',qty='$qty', total='$total' where id='$id'");
 
     }
 

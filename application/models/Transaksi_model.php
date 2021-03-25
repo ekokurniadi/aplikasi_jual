@@ -30,22 +30,38 @@ class Transaksi_model extends CI_Model
     }
     
     // get total rows
-    function total_rows($q = NULL) {
-        $this->db->like('id', $q);
-	$this->db->or_like('kode_transaksi', $q);
-	$this->db->or_like('tanggal_transaksi', $q);
-	$this->db->from($this->table);
-        return $this->db->count_all_results();
+    function total_rows($t1=NULL,$t2=NULL) {
+        if($t1=="" or $t2==""){
+            $this->db->like('id', $t1);
+            $this->db->or_like('kode_transaksi', $t1);
+            $this->db->or_like('tanggal_transaksi', $t1);
+            $this->db->or_like('kode_transaksi', $t2);
+            $this->db->or_like('tanggal_transaksi', $t2);
+            $this->db->from($this->table);
+                return $this->db->count_all_results();
+        }else{
+            return $this->db->query("SELECT * FROM transaksi where tanggal_transaksi between '$t1' and '$t2'")->num_rows();
+            
+        }
+
+       
     }
 
     // get data with limit and search
-    function get_limit_data($limit, $start = 0, $q = NULL) {
-        $this->db->order_by($this->id, $this->order);
-        $this->db->like('id', $q);
-	$this->db->or_like('kode_transaksi', $q);
-	$this->db->or_like('tanggal_transaksi', $q);
-	$this->db->limit($limit, $start);
-        return $this->db->get($this->table)->result();
+    function get_limit_data($limit, $start = 0, $t1=NULL,$t2=NULL) {
+        if($t1=="" or $t2==""){
+            $this->db->order_by($this->id, $this->order);
+            $this->db->like('id',$t1);
+            $this->db->or_like('kode_transaksi',$t1);
+            $this->db->or_like('tanggal_transaksi', $t1);
+            $this->db->or_like('kode_transaksi',$t2);
+            $this->db->or_like('tanggal_transaksi', $t2);
+            $this->db->limit($limit, $start);
+            return $this->db->get($this->table)->result();
+        }else{
+            return $this->db->query("SELECT * FROM transaksi where tanggal_transaksi between '$t1' and '$t2'")->result();
+        }
+        
     }
 
     // insert data

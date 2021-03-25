@@ -20,11 +20,11 @@ class Laba extends MY_Controller {
         $start = intval($this->input->get('start'));
         
         if ($q <> '') {
-            $config['base_url'] = base_url() . 'barang/index.dart?q=' . urlencode($q);
-            $config['first_url'] = base_url() . 'barang/index.dart?q=' . urlencode($q);
+            $config['base_url'] = base_url() . 'laba/index.dart?q=' . urlencode($q);
+            $config['first_url'] = base_url() . 'laba/index.dart?q=' . urlencode($q);
         } else {
-            $config['base_url'] = base_url() . 'barang/index.dart';
-            $config['first_url'] = base_url() . 'barang/index.dart';
+            $config['base_url'] = base_url() . 'laba/index.dart';
+            $config['first_url'] = base_url() . 'laba/index.dart';
         }
 
         $config['per_page'] = 10;
@@ -72,13 +72,14 @@ class Laba extends MY_Controller {
 		'harga_modal' => $row->harga_modal,
 		'harga_terjual' => $row->harga_terjual,
 		'qty_terjual' => $row->qty_terjual,
+        'detail_transaksi'=> $this->db->query("SELECT a.*,b.* from detail_transaksi a join barang b on a.kode_barang=b.kode_barang where a.kode_barang='$row->kode_barang'")->result()
 	    );
             $this->load->view('header');
-            $this->load->view('barang_read', $data);
+            $this->load->view('laba_read', $data);
             $this->load->view('footer');
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('barang'));
+            redirect(site_url('laba'));
         }
     }
 

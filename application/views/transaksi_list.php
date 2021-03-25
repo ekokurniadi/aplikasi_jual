@@ -30,24 +30,34 @@
                   </div>
 
                   <div class="col-md-3 text-right">
-                     <form action="<?php echo site_url('transaksi/index'); ?>" class="form-inline" method="get">
-                          <div class="input-group">
-                          <input type="text" class="form-control" name="q" value="<?php echo $q; ?>" placeholder="Enter Keyword">
-                          <span class="input-group-btn">
-                              <?php 
-                                  if ($q <> '')
-                                  {
-                                      ?>
-                                      <a href="<?php echo site_url('transaksi'); ?>" class="btn btn-warning"><span class="fa fa-close"> </span> Reset</a>
-                                      <?php
-                                  }
-                              ?>
-                            <button class="btn btn-primary" type="submit"><span class="fa fa-search"> </span> Search</button>
-                          </span>
-                          </div>
-                      </form>
+                    
                   </div>
 
+                  </div>
+                  <div class="row">
+                      <div class="col-md-4">
+                          
+                      </div>
+                      <div class="col-md-3">
+                      <form action="<?=base_url('transaksi/index')?>">
+                      Tanggal Awal
+                          <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" value="<?=$tanggal1?>">
+                      </div>
+                      <div class="col-md-3">
+                      Tanggal Akhir
+                          <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control" value="<?=$tanggal2?>">
+                      </div>
+                      <div class="col-md-2">
+                      <br>
+                            <?php 
+                              if($tanggal1 <> '' or $tanggal2 <> ''){ ?>
+                                     <a href="<?php echo site_url('transaksi'); ?>" class="btn btn-warning"><span class="fa fa-close"> </span> Reset</a>
+                            <?php } ?>
+                              
+                            
+                            <button class="btn btn-flat btn-primary"><span class="fa fa-search"></span></button>
+                      </div>
+                      </form>
                   </div>
                   <div class="card-body">
                     <div class="table-responsive">
@@ -57,17 +67,32 @@
                           <th>No</th>
 		<th>Kode Transaksi</th>
 		<th>Tanggal Transaksi</th>
+		<th>Barang Terjual</th>
 		<th>Action</th>
                     </tr>
                     </thead><?php
                     foreach ($transaksi_data as $transaksi)
                     {
+                        $detailBarang = $this->db->query("SELECT a.*, b.nama_barang,b.pemilik from detail_transaksi a join barang b on a.kode_barang=b.kode_barang where a.kode_transaksi='$transaksi->kode_transaksi'")->result();
                         ?>
                           <tbody>
                           <tr>
 			<td width="80px"><?php echo ++$start ?></td>
 			<td><?php echo $transaksi->kode_transaksi ?></td>
 			<td><?php echo formatTanggal($transaksi->tanggal_transaksi) ?></td>
+			<td>
+        <?php
+          foreach($detailBarang as $rows){
+            $pemilik="";
+            if($rows->pemilik==""){
+              $pemilik="";
+            }else{
+              $pemilik ="(".$rows->pemilik.")";
+            }
+            echo $rows->nama_barang.$pemilik."<br>";
+          }
+        ?>
+      </td>
 			<td style="text-align:center" width="200px">
 				<?php 
 				echo anchor(site_url('transaksi/read/'.$transaksi->id),'<i class="fa fa-eye"></i>',array('title'=>'detail','class'=>'btn btn-icon icon-left btn-light')); 

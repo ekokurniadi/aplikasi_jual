@@ -19,9 +19,9 @@
 
                     <?php if($_SESSION['role']=='Admin'){?>
                     <div class="col-md-4">
-                    <form action="<?php echo base_url('laba/reset')?>" method="post">
+                    <!-- <form action="<?php echo base_url('laba/reset')?>" method="post">
                         <button type="submit" onclick="return confirm('Are You Sure')" class="btn btn-danger btn-flat">Reset Data
-                    </form>
+                    </form> -->
                     </div>
                     <?php } else { ?>
                       <div class="col-md-4">
@@ -67,36 +67,34 @@
                           <th>No</th>
                           <th>Kode Barang</th>
                           <th>Nama Barang</th>
+                          <th>Pemilik Barang</th>
                           <th>Satuan Barang</th>
                           <th>Harga Modal</th>
-                          <th>Harga Jual</th>
                           <th>Qty Terjual</th>
                           <th>Keuntungan</th>
+                          <th>Action</th>
                     </tr>
                     </thead><?php
                     foreach ($barang_data as $barang)
                     {
-                      $keuntungan = ($barang->harga_terjual * $barang->qty_terjual) - ($barang->harga_modal * $barang->qty_terjual);
+                      $keuntungan = $this->db->query("SELECT COALESCE(SUM(laba)) as keuntungan from detail_transaksi where kode_barang='$barang->kode_barang'")->row();
                         ?>
                           <tbody>
                           <tr>
 			<td width="80px"><?php echo ++$start ?></td>
 			<td><?php echo $barang->kode_barang ?></td>
 			<td><?php echo $barang->nama_barang ?></td>
+			<td><?php echo $barang->pemilik ?></td>
 			<td><?php echo $barang->satuan ?></td>
 			<td><?php echo number_format($barang->harga_modal,0,',','.') ?></td>
-			<td><?php echo number_format($barang->harga_terjual,0,',','.') ?></td>
 			<td><?php echo number_format($barang->qty_terjual,0,',','.') ?></td>
-			<td><?php echo number_format($barang->laba,0,',','.') ?></td>
-			<!-- <td style="text-align:center" width="200px">
+			<td><?php echo number_format($keuntungan->keuntungan,0,',','.') ?></td>
+			<td style="text-align:center" width="20px">
 				<?php 
-				echo anchor(site_url('barang/read/'.$barang->id),'<i class="fa fa-eye"></i>',array('title'=>'detail','class'=>'btn btn-icon icon-left btn-light')); 
+				echo anchor(site_url('laba/read/'.$barang->id),'<i class="fa fa-eye"></i>',array('title'=>'detail','class'=>'btn btn-icon icon-left btn-flat btn-danger')); 
 				echo '  '; 
-				echo anchor(site_url('barang/update/'.$barang->id),'<i class="fa fa-pencil-square-o"></i>',array('title'=>'edit','class'=>'btn btn-icon icon-left btn-warning')); 
-				echo '  '; 
-				echo anchor(site_url('barang/delete/'.$barang->id),'<i class="fa fa-trash-o"></i>','title="delete" class="btn btn-icon icon-left btn-danger" onclick="javasciprt: return confirm(\'Are You Sure ?\')"'); 
 				?>
-			</td> -->
+			</td>
 		</tr></tbody>
                           <?php
                       }
