@@ -122,6 +122,7 @@
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-building"></i> <span>Menu Utama</span></a>
                 <ul class="dropdown-menu">
                   <li><a class="nav-link" href="<?php echo base_url('user')?>">User</a></li>
+                  <li><a class="nav-link" href="<?php echo base_url('pemilik_barang')?>">Pemilik Barang</a></li>
                   <li><a class="nav-link" href="<?php echo base_url('barang')?>">Barang</a></li>
                   <li><a class="nav-link" href="<?php echo base_url('laba')?>">Laba</a></li>
                   <li><a class="nav-link" href="<?php echo base_url('transaksi')?>">Transaksi</a></li>

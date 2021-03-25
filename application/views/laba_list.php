@@ -1,3 +1,35 @@
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+function hitung()
+        {
+            var warna  =  $("#warna").val();
+            var tanggal1  =  $("#tanggal1").val();
+            var tanggal2  =  $("#tanggal2").val();
+            $.ajax({
+                type:"POST",
+                url:"<?php echo base_url('laba/load_laba')?>",
+                data:{
+                  "warna" :warna,
+                  "tanggal1":tanggal1,
+                  "tanggal2":tanggal2
+                },
+                beforeSend:function(){
+                  $('#list_ku').hide();
+                  $('#loading').show();
+                },
+                success:function(hasilajax){
+                  $('#loading').hide();
+                  $('#list_ku').show();
+                    $('#list_ku').html(hasilajax);
+                }
+            });
+            
+        }
+</script>
+<body onload="hitung();">
+  
+</body>
 
  <div class="main-content">
 <section class="section">
@@ -38,99 +70,43 @@
                   </div>
 
                   <div class="col-md-3 text-right">
-                     <form action="<?php echo site_url('barang/index'); ?>" class="form-inline" method="get">
-                          <div class="input-group">
-                          <input type="text" class="form-control" name="q" value="<?php echo $q; ?>" placeholder="Enter Keyword">
-                          <span class="input-group-btn">
-                              <?php 
-                                  if ($q <> '')
-                                  {
-                                      ?>
-                                      <a href="<?php echo site_url('barang'); ?>" class="btn btn-warning"><span class="fa fa-close"> </span> Reset</a>
-                                      <?php
-                                  }
-                              ?>
-                            <button class="btn btn-primary" type="submit"><span class="fa fa-search"> </span> Search</button>
-                          </span>
-                          </div>
-                      </form>
+                    
                   </div>
 
+                  </div>
+                  <div class="container">
+                  <div class="row">
+                      <div class="col-md-2">
+                      <form action="" method="post">
+                            Berdasarkan Warna
+                           <input type="color" class="form-control" name="warna" id="warna" value='#ffffff'>  
+                      </div>
+                      
+                      <div class="col-md-2">
+                            Periode Awal
+                            <input type="date" class="form-control" name="tanggal1" id="tanggal1">
+                      </div>
+                      <div class="col-md-2">
+                            Periode Akhir
+                            <input type="date" class="form-control" name="tanggal2" id="tanggal2">
+                      </div>
+                      <div class="col-md-2">
+                      <br>
+                          <a href="#" type="button" class="btn btn-primary btn-md btn-flat" onclick="hitung();">Search</a>
+                      </div>
+                      </form>
+                  </div>
                   </div>
                   <div class="card-body">
 
                     <div class="table-responsive">
-                      <?php if($_SESSION['role']=='Admin'){?>
-                      <table class="table table-bordered table-md" id="table-1">
-                      <thead>
-                      <tr>
-                          <th>No</th>
-                          <th>Kode Barang</th>
-                          <th>Nama Barang</th>
-                          <th>Pemilik Barang</th>
-                          <th>Satuan Barang</th>
-                          <th>Harga Modal</th>
-                          <th>Qty Terjual</th>
-                          <th>Keuntungan</th>
-                          <th>Action</th>
-                    </tr>
-                    </thead><?php
-                    foreach ($barang_data as $barang)
-                    {
-                      $keuntungan = $this->db->query("SELECT COALESCE(SUM(laba)) as keuntungan from detail_transaksi where kode_barang='$barang->kode_barang'")->row();
-                        ?>
-                          <tbody>
-                          <tr>
-			<td width="80px"><?php echo ++$start ?></td>
-			<td><?php echo $barang->kode_barang ?></td>
-			<td><?php echo $barang->nama_barang ?></td>
-			<td><?php echo $barang->pemilik ?></td>
-			<td><?php echo $barang->satuan ?></td>
-			<td><?php echo number_format($barang->harga_modal,0,',','.') ?></td>
-			<td><?php echo number_format($barang->qty_terjual,0,',','.') ?></td>
-			<td><?php echo number_format($keuntungan->keuntungan,0,',','.') ?></td>
-			<td style="text-align:center" width="20px">
-				<?php 
-				echo anchor(site_url('laba/read/'.$barang->id),'<i class="fa fa-eye"></i>',array('title'=>'detail','class'=>'btn btn-icon icon-left btn-flat btn-danger')); 
-				echo '  '; 
-				?>
-			</td>
-		</tr></tbody>
-                          <?php
-                      }
-                      ?>
-                    
-                    </table>
-<?php } else {?>
-  <table class="table table-bordered table-md" id="table-1">
-                      <thead>
-                      <tr>
-                          <th>No</th>
-                          <th>Kode Barang</th>
-                          <th>Nama Barang</th>
-                          <th>Qty Terjual</th>
-                    </tr>
-                    </thead><?php
-                    foreach ($barang_data as $barang)
-                    {
-                        ?>
-                          <tbody>
-                          <tr>
-			<td width="80px"><?php echo ++$start ?></td>
-			<td><?php echo $barang->kode_barang ?></td>
-			<td><?php echo $barang->nama_barang ?></td>
-			<td><?php echo number_format($barang->qty_terjual,0,',','.') ?></td>
-		</tr></tbody>
-                          <?php
-                      }
-                      ?>
-                    
-                    </table>
-    <?php } ?>
+                      <div id="list_ku" class="table-responsive">
+                        <div id="loading" style="position:relative;display:flex;justify-content:center;">Loading...</div>
+                     
                     </div>
                   </div>
                   <div class="card-footer text-right">
-                  <?php echo $pagination ?>
+                  <!-- <?php echo $pagination ?> -->
                   </div>
                 </div>
               </div>
@@ -139,7 +115,7 @@
         </section>
         <div class="row">
         <div class="col-md-6">
-            <a href="#" class="btn btn-primary">Total Data : <?php echo $total_rows ?></a>
+            <!-- <a href="#" class="btn btn-primary">Total Data : <?php echo $total_rows ?></a> -->
             
 	    </div>
        
