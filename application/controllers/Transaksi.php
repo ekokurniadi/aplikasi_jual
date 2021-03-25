@@ -182,13 +182,14 @@ class Transaksi extends MY_Controller {
 
     function edit(){
         $id       = $_GET['id'];
-        $tanggal_transaksi    = $_GET['tanggal_transaksi'];
-        $kode_barang          = $_GET['kode_barang'];
-        $harga_jual           = $_GET['harga_jual'];
-        $qty_jual             = $_GET['qty_jual'];
-        $total                = $_GET['total'];
-        $harga_modal          = $_GET['harga_modal'];
-        $laba                 = $_GET['laba'];   
+        $qty      = $_GET['qty'];
+        $modal    = $_GET['modal'];
+        $harga_jual = $_GET['harga'];
+        $total      = $_GET['total'];
+        $laba      = (($harga_jual - $harga_modal) * $qty);
+
+        $update = $this->db->query("update detail_transaksi set harga_jual ='$harga_jual', total='$total'")
+    
 
     }
 
