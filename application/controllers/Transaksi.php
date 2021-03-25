@@ -160,19 +160,11 @@ class Transaksi extends MY_Controller {
 
                                 $.ajax({
                                     type:'GET',
-                                    url:'".base_url('transaksi/input_ajax')."',
-                                    data:'id='+id".$d->id."+'&qty='+qty".$d->id."+'&harga='+harga".$d->id."+'&total='+total".$d->id."+"&qty_jual="+qty_jual+"&total="+total+"&harga_modal="+harga_modal+"&laba="+laba,
+                                    url:'".base_url('transaksi/edit')."',
+                                    data:'id='+id".$d->id."+'&qty='+qty".$d->id."+'&harga='+harga".$d->id."+'&total='+total".$d->id."+'&modal='+modal".$d->id.",
                                     success:function(html){
                                        load_data_temp();
-                                       $('select[name="kode_barang"]').val('');
-                                        $("#harga_jual").val('0');
-                                        $("#qty_jual").val('');
-                                        $("#total").val('0');
-                                        $("#harga_modal").val('0');
-                                        $("#laba").val('0');
-                                        $("#modal_laba").val('0');
                                       
-                                        document.getElementById("kode_barang").focus();
                                        
                                     }
                                  });
@@ -189,7 +181,14 @@ class Transaksi extends MY_Controller {
 
 
     function edit(){
-       
+        $id       = $_GET['id'];
+        $tanggal_transaksi    = $_GET['tanggal_transaksi'];
+        $kode_barang          = $_GET['kode_barang'];
+        $harga_jual           = $_GET['harga_jual'];
+        $qty_jual             = $_GET['qty_jual'];
+        $total                = $_GET['total'];
+        $harga_modal          = $_GET['harga_modal'];
+        $laba                 = $_GET['laba'];   
 
     }
 
