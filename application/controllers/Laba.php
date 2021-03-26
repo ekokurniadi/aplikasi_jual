@@ -73,6 +73,7 @@ class Laba extends MY_Controller {
                 <th>Kode Barang</th>
                 <th>Nama Barang</th>
                 <th>Pemilik Barang</th>
+                <th>Nama Pemilik Barang</th>
                 <th>Satuan Barang</th>
                 <th>Harga Modal</th>
                 <th>Qty Terjual</th>
@@ -83,17 +84,17 @@ class Laba extends MY_Controller {
           <tbody>";
         
         if($warna=="#ffffff" && $t1 != "" && $t2 != ""){
-            $data = $this->db->query("SELECT a.id,a.kode_barang,a.nama_barang,a.pemilik,a.satuan,c.warna,
+            $data = $this->db->query("SELECT a.id,a.kode_barang,a.nama_barang,a.pemilik,c.nama_pemilik_barang,a.satuan,c.warna,
             COALESCE(SUM(b.qty)) as qty,a.harga_modal,b.harga_jual,
             COALESCE(SUM(b.laba)) as lab from barang a join detail_transaksi b 
             on a.kode_barang=b.kode_barang left join pemilik_barang c on a.pemilik =c.pemilik_barang where b.tanggal_transaksi between '$t1' and '$t2' group by a.kode_barang")->result();
         }else if($t1 == "" && $t2 == "" && $warna=="#ffffff"){
-            $data = $this->db->query("SELECT a.id,a.kode_barang,a.nama_barang,a.satuan,c.warna,
+            $data = $this->db->query("SELECT a.id,a.kode_barang,a.nama_barang,a.satuan,c.warna,c.nama_pemilik_barang,
             COALESCE(SUM(b.qty)) as qty,a.harga_modal,b.harga_jual,a.pemilik,
             COALESCE(SUM(b.laba)) as lab from barang a join detail_transaksi b 
             on a.kode_barang=b.kode_barang left join pemilik_barang c on a.pemilik=c.pemilik_barang group by a.kode_barang")->result();
         }else{
-            $data = $this->db->query("SELECT a.id,a.kode_barang,a.nama_barang,a.satuan,c.warna,
+            $data = $this->db->query("SELECT a.id,a.kode_barang,a.nama_barang,a.satuan,c.warna,c.nama_pemilik_barang,
             COALESCE(SUM(b.qty)) as qty,a.harga_modal,b.harga_jual,
             COALESCE(SUM(b.laba)) as lab,a.pemilik from barang a join detail_transaksi b 
             on a.kode_barang=b.kode_barang left join pemilik_barang c on a.pemilik =c.pemilik_barang where c.warna='$warna' group by a.kode_barang")->result();
@@ -106,11 +107,12 @@ class Laba extends MY_Controller {
                     <td>".$rows->kode_barang."</td>
                     <td>".$rows->nama_barang."</td>
                     <td>".$rows->pemilik."</td>
+                    <td>".$rows->nama_pemilik_barang."</td>
                     <td>".$rows->satuan."</td>
                     <td>".number_format($rows->harga_modal,0,',','.')."</td>
                     <td>".number_format($rows->qty,0,',','.')."</td>
                     <td>".number_format($rows->lab,0,',','.')."</td>
-                    <td>".anchor(site_url('laba/read/'.$rows->id),'<i class="fa fa-eye"></i>',array('title'=>'detail','class'=>'btn btn-icon icon-left btn-flat btn-danger')). "</td>
+                    <td>".anchor(site_url('laba/read/'.$rows->id),'<i class="fa fa-eye"></i>',array('title'=>'detail','class'=>'btn btn-icon icon-left btn-flat btn-primary')). "</td>
                 </tr>
             ";
             $no++;

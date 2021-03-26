@@ -3,6 +3,7 @@
 <script type="text/javascript">
 function hitung()
         {
+
             var warna  =  $("#warna").val();
             var tanggal1  =  $("#tanggal1").val();
             var tanggal2  =  $("#tanggal2").val();
@@ -15,8 +16,8 @@ function hitung()
                   "tanggal2":tanggal2
                 },
                 beforeSend:function(){
-                  $('#list_ku').hide();
-                  $('#loading').show();
+                  $('#list_ku').show();
+                
                 },
                 success:function(hasilajax){
                   $('#loading').hide();
@@ -26,10 +27,9 @@ function hitung()
             });
             
         }
+        
 </script>
-<body onload="hitung();">
-  
-</body>
+
 
  <div class="main-content">
 <section class="section">
@@ -43,23 +43,13 @@ function hitung()
 
           <div class="section-body">
             <div class="row">
-              <div class="col-12">
+              <div class="col-12 col-md-12 col-lg-12">
                 <div class="card">
                   <div class="card-header">
+                  <div class="card-header">
+                      <h4>Laba </h4>
+                  </div>
                   
-                    <!-- 0 -->
-
-                    <?php if($_SESSION['role']=='Admin'){?>
-                    <div class="col-md-4">
-                    <!-- <form action="<?php echo base_url('laba/reset')?>" method="post">
-                        <button type="submit" onclick="return confirm('Are You Sure')" class="btn btn-danger btn-flat">Reset Data
-                    </form> -->
-                    </div>
-                    <?php } else { ?>
-                      <div class="col-md-4">
-                   
-                    </div>
-                    <?php } ?>
                   <div class="col-md-4 text-center">
                       <div style="margin-top: 8px" id="message">
                        <h5> <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?></h5>
@@ -75,24 +65,27 @@ function hitung()
 
                   </div>
                   <div class="container">
+                  
                   <div class="row">
-                      <div class="col-md-2">
+                      
+                      <div class="col-md-3">
                       <form action="" method="post">
                             Berdasarkan Warna
                            <input type="color" class="form-control" name="warna" id="warna" value='#ffffff'>  
                       </div>
                       
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                             Periode Awal
                             <input type="date" class="form-control" name="tanggal1" id="tanggal1">
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                             Periode Akhir
                             <input type="date" class="form-control" name="tanggal2" id="tanggal2">
                       </div>
                       <div class="col-md-2">
                       <br>
-                          <a href="#" type="button" class="btn btn-primary btn-md btn-flat" onclick="hitung();">Search</a>
+                          <?php if()?>
+                          <a href="#" type="button" class="btn btn-primary btn-md btn-flat" onclick="hitung();"><i class="fa fa-search"></i> Search</a>
                       </div>
                       </form>
                   </div>
@@ -101,7 +94,7 @@ function hitung()
 
                     <div class="table-responsive">
                       <div id="list_ku" class="table-responsive">
-                        <div id="loading" style="position:relative;display:flex;justify-content:center;">Loading...</div>
+                        <div id="loading" style="position:relative;display:flex;justify-content:center;">Tidak Ada Data, silahkan search...</div>
                      
                     </div>
                   </div>
