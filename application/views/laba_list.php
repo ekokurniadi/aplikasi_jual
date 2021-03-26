@@ -84,7 +84,7 @@ function hitung()
                       </div>
                       <div class="col-md-2">
                       <br>
-                          <?php if()?>
+                         
                           <a href="#" type="button" class="btn btn-primary btn-md btn-flat" onclick="hitung();"><i class="fa fa-search"></i> Search</a>
                       </div>
                       </form>
