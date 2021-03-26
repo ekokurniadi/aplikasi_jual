@@ -20,7 +20,7 @@
    
    header("Content-type: application/vnd-ms-excel");
    $tanggal=date('Y-m-d').".xls";
-   $name_file ="Laporan_penjualan";
+   $name_file ="Template";
    $t1=formatTanggal($startDate);
    $t2=formatTanggal($endDate);
    header("Content-Disposition: attachment; filename=$name_file($t1-$t2).xls"); 

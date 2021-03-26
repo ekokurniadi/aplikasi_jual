@@ -69,6 +69,10 @@ class Barang extends MY_Controller {
         }
     }
 
+    public function download(){
+        $this->load->view("template_barang");
+    }
+
     public function ambil_data_barang()
     {
         $kode_barang = $_POST['kode_barang'];

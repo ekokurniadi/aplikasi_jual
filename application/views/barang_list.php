@@ -18,23 +18,23 @@
                     <!-- 0 -->
 
                     <?php if($_SESSION['role']=='Admin'){?>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <?php echo anchor(site_url('barang/create'),'<i class="fa fa-plus"></i> Add New', 'class="btn btn-icon icon-left btn-primary"'); ?>
-                      <?php echo anchor(site_url('barang/import_barang'),'<i class="fa fa-upload"></i> Import Excel', 'class="btn btn-icon icon-left btn-success"'); ?>
+                      <?php echo anchor(site_url('barang/import_barang'),'<i class="fa fa-download"></i> Import Excel', 'class="btn btn-icon icon-left btn-success"'); ?>
+                      <?php echo anchor(site_url('barang/download'),'<i class="fa fa-upload"></i> Download Template', 'class="btn btn-icon icon-left btn-danger"'); ?>
                     </div>
                     <?php } else { ?>
                       <div class="col-md-4">
                       <?php echo anchor(site_url('barang/create'),'<i class="fa fa-plus"></i> Add New', 'class="btn btn-icon icon-left btn-primary"'); ?>
                     </div>
                     <?php } ?>
-                  <div class="col-md-4 text-center">
+                  <div class="col-md-3 text-center">
                       <div style="margin-top: 8px" id="message">
                        <h5> <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?></h5>
                       </div>
                   </div>
 
-                  <div class="col-md-1 text-right">
-                  </div>
+                 
 
                   <div class="col-md-3 text-right">
                      <form action="<?php echo site_url('barang/index'); ?>" class="form-inline" method="get">
