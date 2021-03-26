@@ -34,7 +34,7 @@ class Laporan extends CI_Controller {
             $dompdf= new Dompdf();
             $html=$this->load->view('laporan_penjualan_pdf',$data,true);
             $dompdf->load_html($html);
-            $dompdf->set_paper('A4','potrait');
+            $dompdf->set_paper('A4','landscape');
             $dompdf->render();
             $pdf = $dompdf->output();
             $dompdf->stream('Laporan Penjualan.pdf',array("Attachment"=>FALSE));
